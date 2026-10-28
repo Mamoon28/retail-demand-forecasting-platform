@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Clean order headers from theLook.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: user_id
+        tests: [not_null]
+
+  - name: stg_order_items
+    description: Clean order line items from theLook.
+    columns:
+      - name: order_item_id
+        tests: [not_null, unique]
+      - name: order_id
+        tests: [not_null]
+      - name: product_id
+        tests: [not_null]
+
+  - name: dim_products
+    description: Product dimension used by downstream analytics.
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+      - name: product_category
+        tests: [not_null]
+
+  - name: fct_order_items
+    description: Valid sales line items at order-item grain.
+    columns:
+      - name: order_item_id
+        tests: [not_null, unique]
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+
+  - name: mart_daily_category_demand
+    description: Daily category-level demand mart consumed by forecasting models.
+    columns:
+      - name: order_date
+        tests: [not_null]
+      - name: product_category
+        tests: [not_null]
+      - name: units_sold
+        tests: [not_null]

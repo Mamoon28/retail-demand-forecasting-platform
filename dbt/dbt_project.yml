@@ -1,0 +1,15 @@
+name: retail_demand
+version: '1.0.0'
+config-version: 2
+
+profile: retail_demand
+
+model-paths: ["models"]
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  retail_demand:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
