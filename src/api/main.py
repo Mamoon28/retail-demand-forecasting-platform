@@ -59,7 +59,9 @@ def health() -> dict[str, str]:
 @app.post("/predict", response_model=ForecastResponse)
 def predict(request: ForecastRequest) -> ForecastResponse:
     if model is None or scaler is None or metadata is None:
-        raise HTTPException(status_code=503, detail="Model artifacts are not loaded. Train the model first.")
+        raise HTTPException(
+            status_code=503, detail="Model artifacts are not loaded. Train the model first."
+        )
 
     lookback = int(metadata["lookback_days"])
     if len(request.recent_units_sold) < lookback:

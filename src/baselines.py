@@ -13,7 +13,9 @@ def seasonal_naive(history: np.ndarray, horizon: int, season_length: int = 7) ->
     return np.tile(pattern, repeats)[:horizon]
 
 
-def rolling_seasonal_naive(train: np.ndarray, test: np.ndarray, season_length: int = 7) -> np.ndarray:
+def rolling_seasonal_naive(
+    train: np.ndarray, test: np.ndarray, season_length: int = 7
+) -> np.ndarray:
     history = list(np.asarray(train, dtype=float).reshape(-1))
     preds = []
     for actual in np.asarray(test, dtype=float).reshape(-1):
@@ -22,7 +24,9 @@ def rolling_seasonal_naive(train: np.ndarray, test: np.ndarray, season_length: i
     return np.asarray(preds)
 
 
-def arima_forecast(train: np.ndarray, horizon: int, order: tuple[int, int, int] = (2, 1, 2)) -> np.ndarray:
+def arima_forecast(
+    train: np.ndarray, horizon: int, order: tuple[int, int, int] = (2, 1, 2)
+) -> np.ndarray:
     model = ARIMA(np.asarray(train, dtype=float), order=order)
     fitted = model.fit()
     return np.asarray(fitted.forecast(steps=horizon), dtype=float)

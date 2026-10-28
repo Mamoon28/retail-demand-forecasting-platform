@@ -3,7 +3,9 @@ from __future__ import annotations
 import numpy as np
 
 
-def recursive_forecast(model, scaler, history: list[float], lookback: int, horizon: int) -> list[float]:
+def recursive_forecast(
+    model, scaler, history: list[float], lookback: int, horizon: int
+) -> list[float]:
     if len(history) < lookback:
         raise ValueError(f"At least {lookback} historical observations are required.")
 
